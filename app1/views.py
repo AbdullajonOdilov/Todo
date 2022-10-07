@@ -40,11 +40,12 @@ def logoutView(request):
     logout(request)
     return redirect('/')
 
-def delete(request):
-    if request.user.is_authenticated:
-        if request.method == "POST":
-            Todo.objects.filter(student__user=request.user).delete()
+def delete(request,num):
+    p = Todo.objects.get(id=num)
+    if request.user == p.student.user:
+        p.delete()
     return redirect('/todo/')
+
 
 def signup(request):
     if request.method == 'POST':
